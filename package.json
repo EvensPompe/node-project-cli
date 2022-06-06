@@ -1,0 +1,14 @@
+{
+  "name": "node-project-cli",
+  "version": "1.0.0",
+  "description": "Un CLI fait avec Node.js pour générer des fichiers et des dossiers",
+  "main": "index.js",
+  "bin": {
+    "hello": "./bin/index.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "Evens Pompe",
+  "license": "ISC",
+  "dependencies": {}
+}
