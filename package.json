@@ -10,5 +10,7 @@
   "keywords": [],
   "author": "Evens Pompe",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+    "chalk": "^5.0.1"
+  }
 }
