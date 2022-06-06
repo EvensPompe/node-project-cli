@@ -4,7 +4,7 @@
   "description": "Un CLI fait avec Node.js pour générer des fichiers et des dossiers",
   "main": "index.js",
   "bin": {
-    "hello": "./bin/index.js"
+    "npc": "./bin/index.js"
   },
   "type": "module",
   "keywords": [],
