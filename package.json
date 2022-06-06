@@ -7,6 +7,9 @@
     "npc": "./bin/index.js"
   },
   "type": "module",
+  "engines": {
+    "node": ">=14.0"
+  },
   "keywords": [],
   "author": "Evens Pompe",
   "license": "ISC",
