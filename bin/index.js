@@ -41,10 +41,14 @@ try {
         switch (arg1) {
           case "create":
             const startCreate = chalk.blue(`Create new node project: ${arg2}`);
+            const gitLog = chalk.blue(`Initialisation of git's repository`);
+            const packageLog = chalk.yellow(`Generation of package.json`);
             const endCreate = chalk.green(`Project ${arg2} finished`);
             console.log(startCreate);
             await mkdir(`${process.cwd()}/${arg2}`);
+            console.log(gitLog);
             await execPromise(`cd ${arg2} && git init`);
+            console.log(packageLog);
             const dataPackage = {
               name: arg2,
               version: "1.0.0",
