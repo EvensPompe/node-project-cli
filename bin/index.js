@@ -32,9 +32,7 @@ try {
           console.log(versionColored);
           break;
         default:
-          const errorMessage = chalk.bgRed.black("Unknown command");
-          console.log(errorMessage);
-          break;
+          throw new Error("Unknown command");
       }
     } else {
       if (args.length === 2) {
@@ -85,16 +83,14 @@ try {
             console.log(endCreate);
             break;
           default:
-            const errorMessage = chalk.red("Unknown command");
-            console.log(errorMessage);
-            break;
+            throw new Error("Unknown command");
         }
       }
     }
   }
   process.exit(0);
 } catch (error) {
-  const errorProcess = chalk.bgRed.black(error);
-  console.error(errorProcess);
+  const errorProcess = chalk.red(error.message);
+  console.log(errorProcess);
   process.exit(1);
 }
