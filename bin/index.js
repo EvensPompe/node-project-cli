@@ -46,8 +46,30 @@ try {
             const endCreate = chalk.bgGreen.black(`Project ${arg2} finished`);
             console.log(startCreate);
             await mkdir(`${process.cwd()}/${arg2}`);
-            await execPromise(`cd ${arg2} && npm init -y`);
             await execPromise(`cd ${arg2} && git init`);
+            const dataPackage = {
+              name: arg2,
+              version: "1.0.0",
+              description: arg2,
+              main: "server.js",
+              script: {
+                dev: "nodemon",
+              },
+              keywords: [],
+              author: "",
+              license: "ISC",
+              dependencies: {
+                express: "^4.18.1",
+              },
+              devDependencies: {
+                nodemon: "^2.0.16",
+              },
+            };
+            const stringDataPackage = JSON.stringify(dataPackage);
+            await writeFile(
+              `${process.cwd()}/${arg2}/package.json`,
+              stringDataPackage
+            );
             const dataAppReaded = await readFile(
               join(__dirname, "./create/dataApp.js")
             );
