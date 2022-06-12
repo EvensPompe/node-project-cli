@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { mkdir, writeFile, readFile } from "fs/promises";
+import { existsSync } from "fs";
 import { createRequire } from "module";
 import { exec } from "child_process";
 import { fileURLToPath } from "url";
@@ -41,6 +42,8 @@ try {
         switch (arg1) {
           case "create":
             const startCreate = chalk.blue(`Create new node project: ${arg2}`);
+            const projectExists = existsSync(`${process.cwd()}/${arg2}`);
+            if (projectExists) throw new Error(`${arg2} already exists`);
             const gitLog = chalk.blue(`Initialisation of git's repository`);
             const packageLog = chalk.yellow(`Generation of package.json`);
             const endCreate = chalk.green(`Project ${arg2} finished`);
