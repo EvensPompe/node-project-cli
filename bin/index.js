@@ -40,10 +40,8 @@ try {
         const [arg1, arg2] = args;
         switch (arg1) {
           case "create":
-            const startCreate = chalk.bgBlue.black(
-              `Create new node project: ${arg2}`
-            );
-            const endCreate = chalk.bgGreen.black(`Project ${arg2} finished`);
+            const startCreate = chalk.blue(`Create new node project: ${arg2}`);
+            const endCreate = chalk.green(`Project ${arg2} finished`);
             console.log(startCreate);
             await mkdir(`${process.cwd()}/${arg2}`);
             await execPromise(`cd ${arg2} && git init`);
@@ -80,7 +78,7 @@ try {
             console.log(endCreate);
             break;
           default:
-            const errorMessage = chalk.bgRed.black("Unknown command");
+            const errorMessage = chalk.red("Unknown command");
             console.log(errorMessage);
             break;
         }
