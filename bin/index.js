@@ -63,7 +63,7 @@ try {
                 nodemon: "^2.0.16",
               },
             };
-            const stringDataPackage = JSON.stringify(dataPackage);
+            const stringDataPackage = JSON.stringify(dataPackage, null, 2);
             await writeFile(
               `${process.cwd()}/${arg2}/package.json`,
               stringDataPackage
