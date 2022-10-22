@@ -77,7 +77,7 @@ try {
               join(__dirname, "./create/dataApp.js")
             );
             await writeFile(
-              `${process.cwd()}/${arg2}/app.js`,
+              `${process.cwd()}/${arg2}/server.js`,
               dataAppReaded.toString()
             );
             console.log(endCreate);
