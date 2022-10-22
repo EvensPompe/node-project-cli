@@ -16,3 +16,5 @@ Pour installer le projet localement, il faudra :
 3) vérifier l'installation et la version en `npc -v` ou `npc --version`
 
 <img src="assets/images/npc-version.png" alt="résultat commande npc --version"/>
+
+*Si vous voulez retirer le lien symbolique, exécuter la commande* `npm unlink npc`.
