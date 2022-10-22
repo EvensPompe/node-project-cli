@@ -55,7 +55,7 @@ try {
               version: "1.0.0",
               description: arg2,
               main: "server.js",
-              script: {
+              scripts: {
                 dev: "nodemon",
               },
               keywords: [],
