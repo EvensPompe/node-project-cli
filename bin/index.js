@@ -57,6 +57,7 @@ create,--help,-h,-version,-v`);
             if (projectExists) throw new Error(`${arg2} already exists`);
             const gitLog = chalk.blue(`Initialisation of git's repository`);
             const packageLog = chalk.yellow(`Generation of package.json`);
+            const gitIgnoreLog = chalk.yellow(`Generation of .gitignore`);
             const installLog = chalk.magenta(`Installation of dependencies`);
             const endCreate = chalk.green(`Project ${arg2} finished`);
             console.log(startCreate);
@@ -82,10 +83,16 @@ create,--help,-h,-version,-v`);
                 nodemon: "^2.0.16",
               },
             };
+            const gitIgnoreData = `node_modules`;
             const stringDataPackage = JSON.stringify(dataPackage, null, 2);
             await writeFile(
               `${process.cwd()}/${arg2}/package.json`,
               stringDataPackage
+            );
+            console.log(gitIgnoreLog);
+            await writeFile(
+              `${process.cwd()}/${arg2}/.gitignore`,
+              gitIgnoreData
             );
             const dataAppReaded = await readFile(
               join(__dirname, "./create/dataApp.js")
