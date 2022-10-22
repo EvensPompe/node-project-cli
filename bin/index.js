@@ -31,6 +31,19 @@ try {
           const versionColored = chalk.white(pkg.version);
           console.log(versionColored);
           break;
+        case "--help":
+        case "-h":
+          const helpLog = chalk.white(`npc <command>
+
+Usage:
+npc --version -v     get current version
+npc --help -h        get help about usage and commands
+npc create <name>    create new node project (by default, a web app with express.js) with name
+
+All commands:
+create,--help,-h,-version,-v`);
+          console.log(helpLog);
+          break;
         default:
           throw new Error("Unknown command");
       }
