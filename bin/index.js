@@ -95,7 +95,7 @@ create,--help,-h,-version,-v`);
               gitIgnoreData
             );
             const dataAppReaded = await readFile(
-              join(__dirname, "./create/dataApp.js")
+              join(__dirname, "./create/express/index.js")
             );
             await writeFile(
               `${process.cwd()}/${arg2}/server.js`,
