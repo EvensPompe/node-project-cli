@@ -44,6 +44,7 @@ try {
             if (projectExists) throw new Error(`${arg2} already exists`);
             const gitLog = chalk.blue(`Initialisation of git's repository`);
             const packageLog = chalk.yellow(`Generation of package.json`);
+            const installLog = chalk.magenta(`Installation of dependencies`);
             const endCreate = chalk.green(`Project ${arg2} finished`);
             console.log(startCreate);
             await mkdir(`${process.cwd()}/${arg2}`);
@@ -80,6 +81,8 @@ try {
               `${process.cwd()}/${arg2}/server.js`,
               dataAppReaded.toString()
             );
+            console.log(installLog);
+            await execPromise(`cd ${arg2} && npm i`);
             console.log(endCreate);
             break;
           default:
