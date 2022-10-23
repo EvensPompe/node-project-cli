@@ -35,6 +35,14 @@ try {
         const command = new Command();
         await command.create(arg2);
       }
+      if (args.length === 3) {
+        const [, arg2, arg3] = args;
+        if (arg3.startsWith("--framework=")) {
+          const [, framework] = arg3.split("=");
+          const command = new Command();
+          await command.create(arg2, framework);
+        }
+      }
       break;
     default:
       throw new Error("Unknown command");
