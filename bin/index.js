@@ -1,26 +1,14 @@
 #!/usr/bin/env node
-import { mkdir, writeFile, readFile } from "fs/promises";
-import { existsSync } from "fs";
 import { createRequire } from "module";
-import { exec } from "child_process";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const require = createRequire(import.meta.url);
 import chalk from "chalk";
+import Command from "./classes/Command.js";
 const pkg = require("../package");
 const [, , ...args] = process.argv;
-const execPromise = (path) =>
-  new Promise((resolve, reject) => {
-    exec(path, (err, stdout, stderr) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(stdout || stderr);
-      }
-    });
-  });
 try {
   if (args.length > 0) {
     if (args.length === 1) {
@@ -52,58 +40,8 @@ create,--help,-h,-version,-v`);
         const [arg1, arg2] = args;
         switch (arg1) {
           case "create":
-            const startCreate = chalk.blue(`Create new node project: ${arg2}`);
-            const projectExists = existsSync(`${process.cwd()}/${arg2}`);
-            if (projectExists) throw new Error(`${arg2} already exists`);
-            const gitLog = chalk.blue(`Initialisation of git's repository`);
-            const packageLog = chalk.yellow(`Generation of package.json`);
-            const gitIgnoreLog = chalk.yellow(`Generation of .gitignore`);
-            const installLog = chalk.magenta(`Installation of dependencies`);
-            const endCreate = chalk.green(`Project ${arg2} finished`);
-            console.log(startCreate);
-            await mkdir(`${process.cwd()}/${arg2}`);
-            console.log(gitLog);
-            await execPromise(`cd ${arg2} && git init`);
-            console.log(packageLog);
-            const dataPackage = {
-              name: arg2,
-              version: "1.0.0",
-              description: arg2,
-              main: "server.js",
-              scripts: {
-                dev: "nodemon",
-              },
-              keywords: [],
-              author: "",
-              license: "ISC",
-              dependencies: {
-                express: "^4.18.1",
-              },
-              devDependencies: {
-                nodemon: "^2.0.16",
-              },
-            };
-            const gitIgnoreData = `node_modules`;
-            const stringDataPackage = JSON.stringify(dataPackage, null, 2);
-            await writeFile(
-              `${process.cwd()}/${arg2}/package.json`,
-              stringDataPackage
-            );
-            console.log(gitIgnoreLog);
-            await writeFile(
-              `${process.cwd()}/${arg2}/.gitignore`,
-              gitIgnoreData
-            );
-            const dataAppReaded = await readFile(
-              join(__dirname, "./create/express/index.js")
-            );
-            await writeFile(
-              `${process.cwd()}/${arg2}/server.js`,
-              dataAppReaded.toString()
-            );
-            console.log(installLog);
-            await execPromise(`cd ${arg2} && npm i`);
-            console.log(endCreate);
+            const command = new Command();
+            await command.create(arg2);
             break;
           default:
             throw new Error("Unknown command");
