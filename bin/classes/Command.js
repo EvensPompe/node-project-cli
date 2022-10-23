@@ -7,10 +7,11 @@ import { dirname, join } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 export default class Command {
-  frameworks = ["express"];
+  frameworks = ["express", "vanilla"];
   async create(name, framework = "express") {
     try {
-      if (!this.frameworks.includes(framework)) throw "no framework or unknown framework";
+      if (!this.frameworks.includes(framework))
+        throw "no framework or unknown framework";
       const startCreate = chalk.blue(`Create new node project: ${name}`);
       const projectExists = existsSync(`${process.cwd()}/${name}`);
       if (projectExists) throw new Error(`${name} already exists`);
