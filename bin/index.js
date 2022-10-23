@@ -2,6 +2,7 @@
 import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { readFile } from "fs/promises";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const require = createRequire(import.meta.url);
@@ -10,16 +11,9 @@ import Command from "./classes/Command.js";
 const pkg = require("../package");
 const [, , ...args] = process.argv;
 try {
+  const helpData = await readFile(join(__dirname, `../help.txt`));
   if (args.length <= 0) {
-    const helpLog = chalk.white(`npc <command>
-
-    Usage:
-    npc --version -v     get current version
-    npc --help -h        get help about usage and commands
-    npc create <name>    create new node project (by default, a web app with express.js) with name
-    
-    All commands:
-    create,--help,-h,-version,-v`);
+    const helpLog = chalk.white(helpData.toString("utf8"));
     console.log(helpLog);
     process.exit(0);
   }
@@ -32,15 +26,7 @@ try {
       break;
     case "--help":
     case "-h":
-      const helpLog = chalk.white(`npc <command>
-
-Usage:
-npc --version -v     get current version
-npc --help -h        get help about usage and commands
-npc create <name>    create new node project (by default, a web app with express.js) with name
-
-All commands:
-create,--help,-h,-version,-v`);
+      const helpLog = chalk.white(helpData.toString("utf8"));
       console.log(helpLog);
       break;
     case "create":
