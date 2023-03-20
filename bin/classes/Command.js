@@ -9,7 +9,7 @@ import { dirname, join } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 export default class Command {
-  frameworks = ["express", "vanilla"];
+  frameworks = ["express", "vanilla", "koa"];
   async create(name, framework = "express") {
     try {
       if (!this.frameworks.includes(framework))
@@ -50,7 +50,10 @@ export default class Command {
             express: "^4.18.1",
           };
           break;
-
+        case "koa":
+          dataPackage["dependencies"] = {
+            koa: "^2.14.1",
+          };
         default:
           break;
       }
