@@ -1,5 +1,7 @@
 import execPromise from "../../functions/execPromise.js";
-import { mkdir, writeFile, readFile } from "fs/promises";
+import { mkdir } from "fs/promises";
+import { createReadStream, createWriteStream } from "fs";
+import { pipeline } from "stream/promises";
 import chalk from "chalk";
 import { existsSync } from "fs";
 import { fileURLToPath } from "url";
@@ -17,14 +19,15 @@ export default class Command {
       if (projectExists) throw new Error(`${name} already exists`);
       const gitLog = chalk.blue(`Initialisation of git's repository`);
       const packageLog = chalk.yellow(`Generation of package.json`);
+      const packageLogFinished = chalk.yellow(`package.json is done`);
       const gitIgnoreLog = chalk.yellow(`Generation of .gitignore`);
+      const gitIgnoreLogFinished = chalk.yellow(`.gitignore is done`);
       const installLog = chalk.magenta(`Installation of dependencies`);
       const endCreate = chalk.green(`Project ${name} finished`);
       console.log(startCreate);
       await mkdir(`${process.cwd()}/${name}`);
       console.log(gitLog);
       await execPromise(`cd ${name} && git init`);
-      let dataAppReaded = null;
       console.log(packageLog);
       const dataPackage = {
         name: name,
@@ -54,18 +57,26 @@ export default class Command {
 
       const gitIgnoreData = `node_modules`;
       const stringDataPackage = JSON.stringify(dataPackage, null, 2);
-      await writeFile(
-        `${process.cwd()}/${name}/package.json`,
-        stringDataPackage
+      const packageStream = createWriteStream(
+        `${process.cwd()}/${name}/package.json`
       );
       console.log(gitIgnoreLog);
-      await writeFile(`${process.cwd()}/${name}/.gitignore`, gitIgnoreData);
-      dataAppReaded = await readFile(
-        join(__dirname, `../create/${framework}/index.js`)
+      packageStream.write(stringDataPackage);
+      packageStream.on("finish", () => {
+        console.log(packageLogFinished);
+      });
+      packageStream.end();
+      const gitignoreStream = createWriteStream(
+        `${process.cwd()}/${name}/.gitignore`
       );
-      await writeFile(
-        `${process.cwd()}/${name}/server.js`,
-        dataAppReaded.toString()
+      gitignoreStream.write(gitIgnoreData);
+      gitignoreStream.on("finish", () => {
+        console.log(gitIgnoreLogFinished);
+      });
+      gitignoreStream.end();
+      await pipeline(
+        createReadStream(join(__dirname, `../create/${framework}/index.js`)),
+        createWriteStream(`${process.cwd()}/${name}/server.js`)
       );
       console.log(installLog);
       await execPromise(`cd ${name} && npm i`);
