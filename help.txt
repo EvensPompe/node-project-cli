@@ -6,7 +6,7 @@ npc --help -h                  get help about usage and commands
 npc create <name> [options]    create new node project (by default, a web app with express.js) with name
 
 Options:
---framework=<name>             specify the node's framework used in the new project ("express","vanilla").
+--framework=<name>             specify the node's framework used in the new project ("express","vanilla","koa").
                                By default, it's defined "express" when the option is not defined.  
 
 All commands:
